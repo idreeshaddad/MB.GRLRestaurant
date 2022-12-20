@@ -15,4 +15,9 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.10" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MB.GRLRestaurant.Entities\MB.GRLRestaurant.Entities.csproj" />
+    <ProjectReference Include="..\MB.GRLRestaurant.Utils\MB.GRLRestaurant.Utils.csproj" />
+  </ItemGroup>
+
 </Project>
