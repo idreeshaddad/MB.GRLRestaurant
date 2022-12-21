@@ -16,3 +16,28 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.navbar-brand {
+    padding: 0;
+}
+
+.logo-img {
+    height: 45px;
+}
+
+.hero {
+    background-color: #fef5f5;
+    padding: 66px 0 80px;
+}
+
+.main-title {
+    color: #4e4039;
+}
+
+.sub-title {
+    color: #9f887f;
+}
+
+.hero-title-btn {
+    padding-top: 50px;
+}
