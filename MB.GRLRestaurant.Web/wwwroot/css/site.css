@@ -41,3 +41,15 @@ body {
 .hero-title-btn {
     padding-top: 50px;
 }
+
+.section-title {
+    font-size: 1.2rem;
+    color: #9f887f;
+    font-weight: bold;
+}
+
+.section-sub-title {
+    color: #4e4039;
+    font-size: 2rem;
+    font-weight: bold;
+}
