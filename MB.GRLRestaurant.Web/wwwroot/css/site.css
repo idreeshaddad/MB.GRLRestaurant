@@ -26,8 +26,11 @@ body {
 }
 
 .hero {
-    background-color: #fef5f5;
     padding: 66px 0 80px;
+}
+
+.bg-section {
+    background-color: #fef5f5;
 }
 
 .main-title {
@@ -53,3 +56,21 @@ body {
     font-size: 2rem;
     font-weight: bold;
 }
+
+.info-card {
+    background-color: #fff;
+    padding: 30px 26px 15px;
+    border-radius: 10px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.info-card .icon i {
+    font-size: 3.5rem;
+    color: #bb0d16;
+}
+
+    .info-card .title {
+        font-weight: bold;
+        margin: 10px 0;
+    }
