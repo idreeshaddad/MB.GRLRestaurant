@@ -74,3 +74,42 @@ body {
         font-weight: bold;
         margin: 10px 0;
     }
+
+.section-newsletter {
+    margin-top: 1.5rem;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    text-align: center;
+}
+
+    .section-newsletter .title {
+        color: #4e4039;
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+
+    .section-newsletter .input-group {
+        width: 50%;
+        margin: auto;
+    }
+
+@media only screen and (max-width : 991px) {
+    .section-newsletter .input-group {
+        width: 75%;
+    }
+}
+
+/* typical phone screen resolution */
+@media only screen and (max-width : 767px) {
+    .hero {
+        text-align: center;
+    }
+
+    .hero-title-btn {
+        margin-bottom: 30px;
+    }
+
+        .hero-title-btn .btn {
+            width: 100%;
+        }
+}
