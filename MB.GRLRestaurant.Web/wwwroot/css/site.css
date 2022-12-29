@@ -109,3 +109,35 @@ html {
             width: 100%;
         }
 }
+
+.social-links {
+    margin: 1rem 0;
+}
+
+    .social-links .lnk {
+        float: left;
+        margin-left: 8px;
+        background-color: #dc3545;
+        border-radius: 50%;
+        width: 44px;
+        height: 44px;
+        font-size: 1.4rem;
+    }
+
+    .social-links .lnk:first-child {
+        margin-left: 0;
+    }
+
+        .social-links .lnk a {
+            color: #fff !important;
+        }
+
+.back-to-top {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+}
+
+.back-to-top i {
+    color: #fff;
+}
