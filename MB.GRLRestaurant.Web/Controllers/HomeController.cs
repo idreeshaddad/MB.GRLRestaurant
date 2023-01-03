@@ -1,4 +1,5 @@
-﻿using MB.GRLRestaurant.Web.Models;
+﻿using MB.GRLRestaurant.Entities;
+using MB.GRLRestaurant.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
