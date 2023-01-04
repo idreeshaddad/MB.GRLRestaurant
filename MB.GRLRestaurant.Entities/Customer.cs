@@ -18,6 +18,7 @@ namespace MB.GRLRestaurant.Entities
         public DateTime DateOfBirth { get; set; }
 
         public List<Order> Orders { get; set; }
+        
 
         [NotMapped]
         public string FullName
@@ -27,7 +28,6 @@ namespace MB.GRLRestaurant.Entities
                 return $"{FirstName} {LastName}";
             }
         }
-
 
         [NotMapped]
         public int Age
