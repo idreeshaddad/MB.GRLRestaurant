@@ -7,23 +7,11 @@
 }
 
     .custom-list-group.list-group-flush > .list-group-item a {
-        color: #333 !important;
-    }
-
-    .custom-list-group.list-group-flush > .list-group-item a:hover {
-        text-decoration: none !important;
+        color: #333;
+        text-decoration: none;
     }
 
         .custom-list-group.list-group-flush > .list-group-item a i {
             font-size: 0.8rem;
             color: #dc3545 !important;
         }
-
-a {
-    text-decoration: none !important;
-    color: #dc3545 !important;
-}
-
-    a:hover {
-        color: #860d19 !important;
-    }

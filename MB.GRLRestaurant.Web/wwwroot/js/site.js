@@ -3,7 +3,8 @@
 
 // Write your JavaScript code.
 
-$(function() {
+$(function () {
 
-    
-})
+    $('.datatables').DataTable();
+
+});

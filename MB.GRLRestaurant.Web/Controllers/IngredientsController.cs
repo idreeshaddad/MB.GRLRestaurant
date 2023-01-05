@@ -40,14 +40,18 @@ namespace MB.GRLRestaurant.Web.Controllers
                 return NotFound();
             }
 
-            var ingredient = await _context.Ingredients
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var ingredient = await _context
+                                    .Ingredients
+                                    .SingleOrDefaultAsync(ingredient => ingredient.Id == id);
+
             if (ingredient == null)
             {
                 return NotFound();
             }
 
-            return View(ingredient);
+            var ingredientVM = _mapper.Map<IngredientViewModel>(ingredient);
+
+            return View(ingredientVM);
         }
 
         public IActionResult Create()
