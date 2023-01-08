@@ -21,22 +21,48 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
+            @foreach (var ingredient in Model)
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Name)
+                        @Html.DisplayFor(modelItem => ingredient.Name)
                     </td>
                     <td>
-                        <a class="text-decoration-none" asp-action="Edit" asp-route-id="@item.Id" title="Edit">
+                        <a class="text-decoration-none" asp-action="Edit" asp-route-id="@ingredient.Id" title="Edit">
                             <i class="fa fa-pen"></i>
                         </a>
-                        <a class="text-decoration-none ms-2" asp-action="Details" asp-route-id="@item.Id" title="Details">
+                        <a class="text-decoration-none ms-2" asp-action="Details" asp-route-id="@ingredient.Id" title="Details">
                             <i class="fa fa-info-circle text-info"></i>
                         </a>
-                        <a class="text-decoration-none ms-2" asp-action="Delete" asp-route-id="@item.Id" title="Delete">
+                        <a class="text-decoration-none ms-2 pointer" title="Delete" data-bs-toggle="modal" data-bs-target="#deleteModal_@ingredient.Id">
                             <i class="fa fa-trash text-danger"></i>
                         </a>
+
+                        @* Delete Ingredient Modal *@
+                        <div class="modal fade" id="deleteModal_@ingredient.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Ingredient</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h4>
+                                            Are you sure you want to delete ingredient <span class="text-danger">@ingredient.Name</span>?
+                                        </h4>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                        <form asp-action="Delete">
+                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                            <input type="hidden" name="Id" value="@ingredient.Id" />
+                                        </form>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </td>
                 </tr>
             }

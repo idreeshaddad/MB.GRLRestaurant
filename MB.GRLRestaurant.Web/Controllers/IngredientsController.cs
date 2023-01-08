@@ -61,15 +61,18 @@ namespace MB.GRLRestaurant.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] Ingredient ingredient)
+        public async Task<IActionResult> Create(IngredientViewModel ingredientVM)
         {
             if (ModelState.IsValid)
             {
+                var ingredient = _mapper.Map<Ingredient>(ingredientVM);
+
                 _context.Add(ingredient);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(ingredient);
+
+            return View(ingredientVM);
         }
 
         public async Task<IActionResult> Edit(int? id)
@@ -80,18 +83,22 @@ namespace MB.GRLRestaurant.Web.Controllers
             }
 
             var ingredient = await _context.Ingredients.FindAsync(id);
+
             if (ingredient == null)
             {
                 return NotFound();
             }
-            return View(ingredient);
+
+            var ingredientVM = _mapper.Map<IngredientViewModel>(ingredient);
+
+            return View(ingredientVM);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Ingredient ingredient)
+        public async Task<IActionResult> Edit(int id, IngredientViewModel ingredientVM)
         {
-            if (id != ingredient.Id)
+            if (id != ingredientVM.Id)
             {
                 return NotFound();
             }
@@ -100,12 +107,14 @@ namespace MB.GRLRestaurant.Web.Controllers
             {
                 try
                 {
+                    var ingredient = _mapper.Map<Ingredient>(ingredientVM);
+
                     _context.Update(ingredient);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!IngredientExists(ingredient.Id))
+                    if (!IngredientExists(ingredientVM.Id))
                     {
                         return NotFound();
                     }
@@ -116,24 +125,8 @@ namespace MB.GRLRestaurant.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(ingredient);
-        }
 
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || _context.Ingredients == null)
-            {
-                return NotFound();
-            }
-
-            var ingredient = await _context.Ingredients
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (ingredient == null)
-            {
-                return NotFound();
-            }
-
-            return View(ingredient);
+            return View(ingredientVM);
         }
 
         [HttpPost, ActionName("Delete")]

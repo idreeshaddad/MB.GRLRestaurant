@@ -8,7 +8,7 @@ namespace MB.GRLRestaurant.Web.AutoMapperProfiles
     {
         public IngredientAutoMapperProfile()
         {
-            CreateMap<Ingredient, IngredientViewModel>();
+            CreateMap<Ingredient, IngredientViewModel>().ReverseMap();
         }
     }
 }

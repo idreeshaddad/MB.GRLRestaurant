@@ -141,3 +141,7 @@ html {
 .back-to-top i {
     color: #fff;
 }
+
+.pointer {
+    cursor: pointer;
+}
