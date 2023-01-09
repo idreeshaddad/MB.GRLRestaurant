@@ -1,4 +1,5 @@
 ﻿using MB.GRLRestaurant.Utils.Enums;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MB.GRLRestaurant.Entities
@@ -13,6 +14,8 @@ namespace MB.GRLRestaurant.Entities
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+
+        [Phone]
         public string PhoneNumber { get; set; }
         public Gender Gender { get; set; }
         public DateTime DateOfBirth { get; set; }
