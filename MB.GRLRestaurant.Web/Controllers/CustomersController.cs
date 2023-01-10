@@ -47,7 +47,9 @@ namespace MB.GRLRestaurant.Web.Controllers
                 return NotFound();
             }
 
-            return View(customer);
+            var customerVM = _mapper.Map<CustomerDetailsViewModel>(customer);
+
+            return View(customerVM);
         }
 
         public IActionResult Create()
@@ -122,23 +124,6 @@ namespace MB.GRLRestaurant.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(customerVM);
-        }
-
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || _context.Customers == null)
-            {
-                return NotFound();
-            }
-
-            var customer = await _context.Customers
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (customer == null)
-            {
-                return NotFound();
-            }
-
-            return View(customer);
         }
 
         [HttpPost, ActionName("Delete")]

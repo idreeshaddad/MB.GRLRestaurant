@@ -8,9 +8,10 @@
     <h1>Customers</h1>
 
     <p>
-        <a asp-action="Create">Create New Customer</a>
+        <a class="btn btn-primary mt-2" asp-action="Create">Create New Customer</a>
     </p>
-    <table class="table">
+    <hr />
+    <table class="table datatables mt-2">
         <thead>
             <tr>
                 <th>
@@ -29,25 +30,57 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model) {
+            @foreach (var customer in Model) {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.FullName)
+                    @Html.DisplayFor(modelItem => customer.FullName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                    @Html.DisplayFor(modelItem => customer.PhoneNumber)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Gender)
+                    @Html.DisplayFor(modelItem => customer.Gender)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Age)
+                    @Html.DisplayFor(modelItem => customer.Age)
                 </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
+                    <td>
+                        <a class="text-decoration-none" asp-action="Edit" asp-route-id="@customer.Id" title="Edit">
+                            <i class="fa fa-pen"></i>
+                        </a>
+                        <a class="text-decoration-none ms-2" asp-action="Details" asp-route-id="@customer.Id" title="Details">
+                            <i class="fa fa-info-circle text-info"></i>
+                        </a>
+                        <a class="text-decoration-none ms-2 pointer" title="Delete" data-bs-toggle="modal" data-bs-target="#deleteModal_@customer.Id">
+                            <i class="fa fa-trash text-danger"></i>
+                        </a>
+
+                        @* Delete Customer Modal *@
+                        <div class="modal fade" id="deleteModal_@customer.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Customer</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h4>
+                                            Are you sure you want to delete customer <span class="text-danger">@customer.FullName</span>?
+                                        </h4>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                        <form asp-action="Delete">
+                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                            <input type="hidden" name="Id" value="@customer.Id" />
+                                        </form>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </td>
             </tr>
             }
         </tbody>

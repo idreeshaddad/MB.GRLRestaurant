@@ -1,4 +1,5 @@
 ﻿using MB.GRLRestaurant.Utils.Enums;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
 
@@ -15,6 +16,11 @@ namespace MB.GRLRestaurant.Web.Models.Customers
 
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
+
+
+        [ValidateNever]
+        [Display(Name = "Full Name")]
+        public string FullName { get; set; }
 
 
         [Display(Name = "Phone Number")]
