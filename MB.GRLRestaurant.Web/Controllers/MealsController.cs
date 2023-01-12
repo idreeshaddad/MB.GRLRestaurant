@@ -63,15 +63,21 @@ namespace MB.GRLRestaurant.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create( Meal meal)
+        public async Task<IActionResult> Create(MealViewModel mealVM)
         {
             if (ModelState.IsValid)
             {
+                var meal = _mapper.Map<Meal>(mealVM);
+
+                await AddIngredientsToMeal(mealVM, meal);
+
                 _context.Add(meal);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(meal);
+
+            mealVM.MultiSelectListIngredients = new MultiSelectList(_context.Ingredients, "Id", "Name", mealVM.IngredientIds);
+            return View(mealVM);
         }
 
         public async Task<IActionResult> Edit(int? id)
@@ -81,19 +87,32 @@ namespace MB.GRLRestaurant.Web.Controllers
                 return NotFound();
             }
 
-            var meal = await _context.Meals.FindAsync(id);
+            var meal = await _context
+                                .Meals
+                                .Include(meal => meal.Ingredients)
+                                .Where(meal => meal.Id == id)
+                                .SingleOrDefaultAsync();
+
             if (meal == null)
             {
                 return NotFound();
             }
-            return View(meal);
+
+            var mealVM = _mapper.Map<MealViewModel>(meal);
+
+            // Get ids from ingredients manually (We used the one in automapper profile)
+            //mealVM.IngredientIds = meal.Ingredients.Select(ing => ing.Id).ToList();
+
+            mealVM.MultiSelectListIngredients = new MultiSelectList(_context.Ingredients, "Id", "Name", mealVM.IngredientIds);
+
+            return View(mealVM);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price")] Meal meal)
+        public async Task<IActionResult> Edit(int id, MealViewModel mealVM)
         {
-            if (id != meal.Id)
+            if (id != mealVM.Id)
             {
                 return NotFound();
             }
@@ -102,12 +121,21 @@ namespace MB.GRLRestaurant.Web.Controllers
             {
                 try
                 {
+                    var meal = _mapper.Map<Meal>(mealVM);
+                    
+                    // Save the meal info (without many to many ... meal - ingredients)
+                    _context.Update(meal);
+                    await _context.SaveChangesAsync();
+                    
+                    // Update the many to many then save
+                    await UpdateMealIngredients(meal.Id, mealVM.IngredientIds);
+
                     _context.Update(meal);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!MealExists(meal.Id))
+                    if (!MealExists(mealVM.Id))
                     {
                         return NotFound();
                     }
@@ -118,7 +146,9 @@ namespace MB.GRLRestaurant.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(meal);
+
+
+            return View(mealVM);
         }
 
         public async Task<IActionResult> Delete(int? id)
@@ -159,6 +189,40 @@ namespace MB.GRLRestaurant.Web.Controllers
         #endregion
 
         #region Private
+
+        private async Task AddIngredientsToMeal(MealViewModel mealVM, Meal meal)
+        {
+            // Get the ingredients from ingrednt ids
+            var ingredients = await _context
+                                    .Ingredients
+                                    .Where(ing => mealVM.IngredientIds.Contains(ing.Id))
+                                    .ToListAsync();
+
+            // add the ingrednets to meal.Ingredients
+            meal.Ingredients.AddRange(ingredients);
+        }
+
+        private async Task UpdateMealIngredients(int mealId, List<int> ingredientIds)
+        {
+            // Get the meal including the ingredients
+            var meal = await _context
+                            .Meals
+                            .Include(meal => meal.Ingredients)
+                            .Where(meal => meal.Id == mealId)
+                            .SingleAsync();
+
+            // Clear the ingredients
+            meal.Ingredients.Clear();
+
+            // Get the ingredients from ingrednt ids
+            var ingredients = await _context
+                                    .Ingredients
+                                    .Where(ing => ingredientIds.Contains(ing.Id))
+                                    .ToListAsync();
+
+            // add the ingrednets to meal.Ingredients
+            meal.Ingredients.AddRange(ingredients);
+        }
 
         private bool MealExists(int id)
         {

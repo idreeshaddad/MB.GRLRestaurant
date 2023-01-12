@@ -2,41 +2,75 @@
 @model IEnumerable<MealListViewModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Meals";
 }
 
-<h1>Index</h1>
+<div class="container">
+    <h1>Meals</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <p>
+        <a class="btn btn-primary mt-2" asp-action="Create">Create New Meal</a>
+    </p>
+    <table class="table datatables mt-2">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var meal in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => meal.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => meal.Price)
+                </td>
+                    <td>
+                        <a class="text-decoration-none" asp-action="Edit" asp-route-id="@meal.Id" title="Edit">
+                            <i class="fa fa-pen"></i>
+                        </a>
+                        <a class="text-decoration-none ms-2" asp-action="Details" asp-route-id="@meal.Id" title="Details">
+                            <i class="fa fa-info-circle text-info"></i>
+                        </a>
+                        <a class="text-decoration-none ms-2 pointer" title="Delete" data-bs-toggle="modal" data-bs-target="#deleteModal_@meal.Id">
+                            <i class="fa fa-trash text-danger"></i>
+                        </a>
+
+                        @* Delete Meal Modal *@
+                        <div class="modal fade" id="deleteModal_@meal.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Meal</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h4>
+                                            Are you sure you want to delete meal <span class="text-danger">@meal.Name</span>?
+                                        </h4>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                        <form asp-action="Delete">
+                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                            <input type="hidden" name="Id" value="@meal.Id" />
+                                        </form>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>

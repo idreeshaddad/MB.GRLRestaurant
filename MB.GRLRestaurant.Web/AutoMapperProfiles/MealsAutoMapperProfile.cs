@@ -10,7 +10,14 @@ namespace MB.GRLRestaurant.Web.AutoMapperProfiles
         {
             CreateMap<Meal, MealListViewModel>();
             CreateMap<Meal, MealDetailsViewModel>();
-            CreateMap<Meal, MealViewModel>().ReverseMap();
+
+
+            CreateMap<Meal, MealViewModel>()
+                .ForMember(dest => dest.IngredientIds,
+                                    opts => opts.MapFrom(src => src.Ingredients.Select(ing => ing.Id).ToList()));
+            
+            
+            CreateMap<MealViewModel, Meal>();
         }
     }
 }
