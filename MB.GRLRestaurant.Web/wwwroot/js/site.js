@@ -7,4 +7,6 @@ $(function () {
 
     $('.datatables').DataTable();
 
+    $('.select2').select2();
+
 });
