@@ -41,8 +41,12 @@ namespace MB.GRLRestaurant.Web.Controllers
                 return NotFound();
             }
 
-            var meal = await _context.Meals
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var meal = await _context
+                                .Meals
+                                .Include(meal => meal.Ingredients)
+                                .Where(meal => meal.Id == id)
+                                .FirstOrDefaultAsync();
+
             if (meal == null)
             {
                 return NotFound();
