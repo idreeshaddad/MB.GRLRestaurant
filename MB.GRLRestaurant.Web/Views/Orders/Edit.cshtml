@@ -1,0 +1,52 @@
+﻿@using MB.GRLRestaurant.Web.Models.Orders;
+@model OrderViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+<div class="container">
+    <h1>Edit</h1>
+
+    <h4>Order</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+                <div class="form-group">
+                    <label asp-for="Notes" class="control-label"></label>
+                    <input asp-for="Notes" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="TotalPrice" class="control-label"></label>
+                    <input asp-for="TotalPrice" class="form-control" />
+                    <span asp-validation-for="TotalPrice" class="text-danger"></span>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="IsPaid" /> @Html.DisplayNameFor(model => model.IsPaid)
+                    </label>
+                </div>
+                
+                <div class="form-group">
+                    <label asp-for="CustomerId" class="control-label"></label>
+                    <select asp-for="CustomerId" class="form-control select2" asp-items="@Model.CustomerSelectList"></select>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="MealIds" class="control-label"></label>
+                    <select asp-for="MealIds" class="form-control select2" asp-items="@Model.MealsMultiSelectList"></select>
+                </div>
+
+                <div class="form-group">
+                    <a class="btn btn-secondary" asp-action="Index">Cancel</a>
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

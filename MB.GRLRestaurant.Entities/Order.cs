@@ -8,7 +8,7 @@
         }
 
         public int Id { get; set; }
-        public string Notes { get; set; }
+        public string? Notes { get; set; }
         public double TotalPrice { get; set; }
         public bool IsPaid { get; set; }
 

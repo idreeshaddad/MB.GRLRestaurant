@@ -1,0 +1,89 @@
+﻿@using MB.GRLRestaurant.Web.Models.Orders;
+@model IEnumerable<OrderListViewModel>
+
+@{
+    ViewData["Title"] = "Orders";
+}
+
+<div class="container">
+    <h1>Orders</h1>
+
+    <p>
+        <a class="btn btn-primary" asp-action="Create">Create New Order</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Notes)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TotalPrice)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IsPaid)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CustomerFullName)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => order.Notes)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => order.TotalPrice)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => order.IsPaid)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => order.CustomerFullName)
+                    </td>
+                    <td>
+                        <a class="text-decoration-none" asp-action="Edit" asp-route-id="@order.Id" title="Edit">
+                            <i class="fa fa-pen"></i>
+                        </a>
+                        <a class="text-decoration-none ms-2" asp-action="Details" asp-route-id="@order.Id" title="Details">
+                            <i class="fa fa-info-circle text-info"></i>
+                        </a>
+                        <a class="text-decoration-none ms-2 pointer" title="Delete" data-bs-toggle="modal" data-bs-target="#deleteModal_@order.Id">
+                            <i class="fa fa-trash text-danger"></i>
+                        </a>
+
+                        @* Delete Order Modal *@
+                        <div class="modal fade" id="deleteModal_@order.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Order</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h4>
+                                            Are you sure you want to delete order number <span class="text-danger">@order.Id</span>?
+                                        </h4>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                        <form asp-action="Delete">
+                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                            <input type="hidden" name="Id" value="@order.Id" />
+                                        </form>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
