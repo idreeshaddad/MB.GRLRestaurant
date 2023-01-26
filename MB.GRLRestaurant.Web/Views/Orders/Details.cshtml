@@ -31,21 +31,26 @@
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.CustomerFullName)
             </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Notes)
+            </dt>
+            <dd class="col-sm-10">
 
-            @if (String.IsNullOrEmpty(Model.Notes))
-            {
-                
-            }
-            else
-            {
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.Notes)
-                </dt>
-                <dd class="col-sm-10">
+                @if (String.IsNullOrEmpty(Model.Notes))
+                {
+                    <span> - </span>
+                }
+                else
+                {
                     @Html.DisplayFor(model => model.Notes)
-                </dd>
-            }
-
+                }
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.OrderDate)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.OrderDate)
+            </dd>
         </dl>
     </div>
 

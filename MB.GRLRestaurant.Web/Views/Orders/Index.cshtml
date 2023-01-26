@@ -15,7 +15,7 @@
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Notes)
+                    @Html.DisplayNameFor(model => model.CustomerFullName)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.TotalPrice)
@@ -24,7 +24,10 @@
                     @Html.DisplayNameFor(model => model.IsPaid)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.CustomerFullName)
+                    @Html.DisplayNameFor(model => model.Notes)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.OrderDate)
                 </th>
                 <th></th>
             </tr>
@@ -34,7 +37,7 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => order.Notes)
+                        @Html.DisplayFor(modelItem => order.CustomerFullName)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => order.TotalPrice)
@@ -43,7 +46,17 @@
                         @Html.DisplayFor(modelItem => order.IsPaid)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => order.CustomerFullName)
+                        @if (String.IsNullOrEmpty(order.Notes))
+                        {
+                            <span> - </span>
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(modelItem => order.Notes)
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => order.OrderDate)
                     </td>
                     <td>
                         <a class="text-decoration-none" asp-action="Edit" asp-route-id="@order.Id" title="Edit">

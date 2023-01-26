@@ -16,9 +16,6 @@ namespace MB.GRLRestaurant.Web.Models.Orders
         [ValidateNever]
         public string? Notes { get; set; }
 
-        [Display(Name = "Total Price")]
-        public double TotalPrice { get; set; }
-
 
         [Display(Name = "Paid")]
         public bool IsPaid { get; set; }

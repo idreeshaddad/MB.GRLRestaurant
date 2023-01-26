@@ -76,9 +76,12 @@ namespace MB.GRLRestaurant.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-
                 var order = _mapper.Map<Order>(orderVM);
                 await AddMealsToOrder(orderVM, order);
+
+                order.OrderDate = DateTime.Now;
+
+                order.TotalPrice = GetOrderTotalPrice(order.Meals);
 
                 _context.Add(order);
                 await _context.SaveChangesAsync();
@@ -120,9 +123,9 @@ namespace MB.GRLRestaurant.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Order order)
+        public async Task<IActionResult> Edit(int id, OrderViewModel orderVM)
         {
-            if (id != order.Id)
+            if (id != orderVM.Id)
             {
                 return NotFound();
             }
@@ -131,12 +134,19 @@ namespace MB.GRLRestaurant.Web.Controllers
             {
                 try
                 {
+                    var order = _mapper.Map<Order>(orderVM);
                     _context.Update(order);
+                    await _context.SaveChangesAsync();
+
+                    UpdateOrderMeals(orderVM.MealIds, order.Id);
+
+                    order.TotalPrice = GetOrderTotalPrice(order.Meals);
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!OrderExists(order.Id))
+                    if (!OrderExists(orderVM.Id))
                     {
                         return NotFound();
                     }
@@ -147,8 +157,11 @@ namespace MB.GRLRestaurant.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "FirstName", order.CustomerId);
-            return View(order);
+
+            orderVM.CustomerSelectList = new SelectList(_context.Customers, "Id", "FullName", orderVM.CustomerId);
+            orderVM.MealsMultiSelectList = new MultiSelectList(_context.Meals, "Id", "Name", orderVM.MealIds);
+
+            return View(orderVM);
         }
 
         [HttpPost, ActionName("Delete")]
@@ -184,6 +197,23 @@ namespace MB.GRLRestaurant.Web.Controllers
             var meals = await _context.Meals.Where(meal => orderVM.MealIds.Contains(meal.Id)).ToListAsync();
             // meals = Zinger, Tender
             order.Meals.AddRange(meals); // Add zinger and tender to order
+        }
+
+        private double GetOrderTotalPrice(List<Meal> meals)
+        {
+            return meals.Sum(meal => meal.Price);
+        }
+
+        private void UpdateOrderMeals(List<int> mealIds, int id)
+        {
+            // TODO
+            // Get the Order from DB
+
+            // Clear the order.Meals
+
+            // Get the meals from DB
+
+            // Add meals to the order
         }
 
         #endregion

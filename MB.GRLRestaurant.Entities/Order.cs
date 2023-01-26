@@ -11,6 +11,7 @@
         public string? Notes { get; set; }
         public double TotalPrice { get; set; }
         public bool IsPaid { get; set; }
+        public DateTime OrderDate { get; set; }
 
         public int CustomerId { get; set; }
         public Customer Customer { get; set; }

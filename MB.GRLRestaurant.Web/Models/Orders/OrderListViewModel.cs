@@ -17,5 +17,8 @@ namespace MB.GRLRestaurant.Web.Models.Orders
 
         [Display(Name = "Customer")]
         public string CustomerFullName { get; set; }
+
+        [Display(Name = "Order Date")]
+        public DateTime OrderDate { get; set; }
     }
 }
