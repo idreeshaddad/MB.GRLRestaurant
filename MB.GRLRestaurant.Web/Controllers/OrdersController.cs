@@ -141,9 +141,9 @@ namespace MB.GRLRestaurant.Web.Controllers
                     // This will save ALL the order table properties EXCEPT many-to-many
                     await _context.SaveChangesAsync();
 
-                    order.TotalPrice = GetOrderTotalPrice(order.Meals);
-                    
                     await UpdateOrderMealsAsync(orderVM.MealIds, order.Id);
+                    
+                    order.TotalPrice = GetOrderTotalPrice(order.Meals);
                     // This will save the many-to-many (Order has many meals)
                     await _context.SaveChangesAsync();
                 }
