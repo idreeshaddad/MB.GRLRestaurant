@@ -104,7 +104,9 @@ namespace MB.GRLRestaurant.Web.Controllers
             var order = await _context
                                 .Orders
                                 .Include(o => o.Meals)
-                                .SingleOrDefaultAsync(o => o.Id == id);
+                                .Where(o => o.Id == id)
+                                .SingleOrDefaultAsync();
+                                //.SingleOrDefaultAsync(o => o.Id == id);
             
             if (order == null)
             {
@@ -136,12 +138,13 @@ namespace MB.GRLRestaurant.Web.Controllers
                 {
                     var order = _mapper.Map<Order>(orderVM);
                     _context.Update(order);
+                    // This will save ALL the order table properties EXCEPT many-to-many
                     await _context.SaveChangesAsync();
 
-                    UpdateOrderMeals(orderVM.MealIds, order.Id);
-
                     order.TotalPrice = GetOrderTotalPrice(order.Meals);
-
+                    
+                    await UpdateOrderMealsAsync(orderVM.MealIds, order.Id);
+                    // This will save the many-to-many (Order has many meals)
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -204,16 +207,27 @@ namespace MB.GRLRestaurant.Web.Controllers
             return meals.Sum(meal => meal.Price);
         }
 
-        private void UpdateOrderMeals(List<int> mealIds, int id)
+        private async Task UpdateOrderMealsAsync(List<int> mealIds, int orderId)
         {
             // TODO
-            // Get the Order from DB
+            // Get the Order from DB (including meals)
+            var order = await _context
+                            .Orders
+                            .Include(o => o.Meals)
+                            .Where(o => o.Id == orderId)
+                            .SingleAsync();
 
             // Clear the order.Meals
+            order.Meals.Clear();
 
             // Get the meals from DB
+            var meals = await _context
+                                .Meals
+                                .Where(meal => mealIds.Contains(meal.Id))
+                                .ToListAsync();
 
             // Add meals to the order
+            order.Meals.AddRange(meals);
         }
 
         #endregion

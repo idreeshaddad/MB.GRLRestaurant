@@ -28,6 +28,8 @@ namespace MB.GRLRestaurant.Web.Models.Orders
         [Display(Name = "Meals")]
         public List<int> MealIds { get; set; }
 
+        [Display(Name = "Order Date")]
+        public DateTime OrderDate { get; set; }
 
 
         //########### Only to choose from, not to save ##########
