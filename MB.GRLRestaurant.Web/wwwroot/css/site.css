@@ -145,3 +145,7 @@ html {
 .pointer {
     cursor: pointer;
 }
+
+.text-hot-pink {
+    color: hotpink;
+}

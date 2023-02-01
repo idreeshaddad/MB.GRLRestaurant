@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MB.GRLRestaurant.Utils.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace MB.GRLRestaurant.Web.Models.Orders
 {
@@ -20,5 +21,8 @@ namespace MB.GRLRestaurant.Web.Models.Orders
 
         [Display(Name = "Order Date")]
         public DateTime OrderDate { get; set; }
+
+        [Display(Name = "Gender")]
+        public Gender CustomerGender { get; set; }
     }
 }

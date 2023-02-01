@@ -1,4 +1,5 @@
-﻿@using MB.GRLRestaurant.Web.Models.Orders;
+﻿@using MB.GRLRestaurant.Utils.Enums;
+@using MB.GRLRestaurant.Web.Models.Orders;
 @model IEnumerable<OrderListViewModel>
 
 @{
@@ -37,13 +38,31 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => order.CustomerFullName)
+                        @if (order.CustomerGender == Gender.Male)
+                        {
+                            <span class="text-primary">
+                                @order.CustomerFullName
+                            </span>
+                        }
+                        else if (order.CustomerGender == Gender.Female)
+                        {
+                            <span class="text-hot-pink">
+                                @order.CustomerFullName
+                            </span>
+                        }
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => order.TotalPrice)
+                        $@Html.DisplayFor(modelItem => order.TotalPrice)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => order.IsPaid)
+                        @if (order.IsPaid)
+                        {
+                            <i class="fa-solid fa-circle-check text-success" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Paid by @order.CustomerFullName"></i>
+                        }
+                        else
+                        {
+                            <i class="fa-solid fa-circle-xmark text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Not paid yet!"></i>
+                        }
                     </td>
                     <td>
                         @if (String.IsNullOrEmpty(order.Notes))
@@ -59,16 +78,16 @@
                         @Html.DisplayFor(modelItem => order.OrderDate)
                     </td>
                     <td>
-                        <a class="text-decoration-none" asp-action="Edit" asp-route-id="@order.Id" title="Edit">
+                        <a class="text-decoration-none" asp-action="Edit" asp-route-id="@order.Id" title="Edit" data-bs-toggle="tooltip">
                             <i class="fa fa-pen"></i>
                         </a>
-                        <a class="text-decoration-none ms-2" asp-action="Details" asp-route-id="@order.Id" title="Details">
+                        <a class="text-decoration-none ms-2" asp-action="Details" asp-route-id="@order.Id" title="Details" data-bs-toggle="tooltip">
                             <i class="fa fa-info-circle text-info"></i>
                         </a>
-                        <a class="text-decoration-none ms-2 pointer" title="Delete" data-bs-toggle="modal" data-bs-target="#deleteModal_@order.Id">
-                            <i class="fa fa-trash text-danger"></i>
-                        </a>
 
+                        <a class="text-decoration-none ms-2 pointer" data-bs-toggle="modal" data-bs-target="#deleteModal_@order.Id">
+                            <i class="fa fa-trash text-danger" data-bs-toggle="tooltip" title="Delete"></i>
+                        </a>
                         @* Delete Order Modal *@
                         <div class="modal fade" id="deleteModal_@order.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
@@ -86,6 +105,42 @@
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                                         <form asp-action="Delete">
                                             <button type="submit" class="btn btn-danger">Delete</button>
+                                            <input type="hidden" name="Id" value="@order.Id" />
+                                        </form>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        @if(order.IsPaid == false)
+                        {
+                            <a class="text-decoration-none ms-2 pointer" data-bs-toggle="modal" data-bs-target="#payModal_@order.Id">
+                                <i class="fa fa-sack-dollar text-success" data-bs-toggle="tooltip" title="Pay"></i>
+                            </a>
+                        }
+
+
+                        @* Pay Order Modal *@
+                        <div class="modal fade" id="payModal_@order.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Pay Order</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h4>
+                                            Are you sure you want to pay order number
+                                            <span class="fw-bold">@order.Id</span>, total price:
+                                            <span class="text-success">$@order.TotalPrice</span>?
+                                        </h4>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                        <form asp-action="Pay">
+                                            <button type="submit" class="btn btn-primary">Pay</button>
                                             <input type="hidden" name="Id" value="@order.Id" />
                                         </form>
 
