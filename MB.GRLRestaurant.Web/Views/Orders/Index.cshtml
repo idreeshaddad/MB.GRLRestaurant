@@ -75,7 +75,17 @@
                         }
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => order.OrderDate)
+                        @if(order.OrderDate.Date < DateTime.Today) {
+                            <span class="text-danger">
+                                @Html.DisplayFor(modelItem => order.OrderDate)
+                            </span>
+                        }
+                        else
+                        {
+                            <span>
+                                @Html.DisplayFor(modelItem => order.OrderDate)
+                            </span>
+                        }
                     </td>
                     <td>
                         <a class="text-decoration-none" asp-action="Edit" asp-route-id="@order.Id" title="Edit" data-bs-toggle="tooltip">
