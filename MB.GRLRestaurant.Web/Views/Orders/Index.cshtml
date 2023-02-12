@@ -75,7 +75,7 @@
                         }
                     </td>
                     <td>
-                        @if(order.OrderDate.Date < DateTime.Today) {
+                        @if(order.OrderDate.Date < DateTime.Today && order.IsPaid == false) {
                             <span class="text-danger">
                                 @Html.DisplayFor(modelItem => order.OrderDate)
                             </span>
