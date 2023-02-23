@@ -1,6 +1,6 @@
 ﻿using MB.GRLRestaurant.Utils.Enums;
+using MB.GRLRestaurant.Web.Models.Orders;
 using System.ComponentModel.DataAnnotations;
-using System.Xml.Linq;
 
 namespace MB.GRLRestaurant.Web.Models.Customers
 {
@@ -15,5 +15,7 @@ namespace MB.GRLRestaurant.Web.Models.Customers
         [Display(Name = "Full Name")]
         public string FullName { get; set; }
         public int Age { get; set; }
+
+        public List<OrderDetailsViewModel> Orders { get; set; }
     }
 }

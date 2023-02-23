@@ -29,5 +29,19 @@ namespace MB.GRLRestaurant.Web.Models.Orders
 
         [Display(Name = "Order Date")]
         public DateTime OrderDate { get; set; }
+
+        public string GetOrderDetailsPopoverContent
+        {
+            get
+            {
+                var detailsString = "";
+                foreach (var meal in Meals)
+                {
+                    detailsString += $"{meal.Name} ${meal.Price} - ";
+                }
+
+                return detailsString;
+            }
+        }
     }
 }

@@ -40,8 +40,12 @@ namespace MB.GRLRestaurant.Web.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customers
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var customer = await _context
+                                    .Customers
+                                    .Include(customer => customer.Orders)
+                                        .ThenInclude(order => order.Meals)
+                                    .SingleOrDefaultAsync(m => m.Id == id);
+
             if (customer == null)
             {
                 return NotFound();
